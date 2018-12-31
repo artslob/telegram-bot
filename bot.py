@@ -4,7 +4,7 @@ from aiohttp import web
 import config
 
 
-async def root(request):
+async def webhook(request):
     data = await request.json()
     headers = {
         'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ async def root(request):
 def main():
     app = web.Application()
     app.add_routes([
-        web.post('/', root),
+        web.post('/', webhook),
     ])
     web.run_app(app, host='0.0.0.0', port=8081)
 
