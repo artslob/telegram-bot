@@ -1,3 +1,4 @@
 TOKEN = ''
 API = f'https://api.telegram.org/bot{TOKEN}'
-
+HOST = ''
+WEBHOOK_RETRIES = 5
