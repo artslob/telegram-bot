@@ -4,6 +4,7 @@ import aiohttp
 from aiohttp import web
 
 import config
+from methods import SendMessageMethod, SetWebhookMethod
 
 
 def webhook_address():
@@ -11,18 +12,13 @@ def webhook_address():
 
 
 async def register_webhook():
-    headers = {
-        'Content-Type': 'application/json'
-    }
     data = {
         'url': f'{config.HOST}{webhook_address()}',
     }
-    url = f'{config.API}/setWebhook'
-    params = dict(url=url, json=data, headers=headers)
 
     for _ in range(config.WEBHOOK_RETRIES):
         try:
-            async with aiohttp.request('POST', **params) as response:
+            async with SetWebhookMethod.post_json(data) as response:
                 if response.status != 200:
                     continue
                 result = await response.json()
@@ -35,17 +31,12 @@ async def register_webhook():
 
 async def webhook(request):
     update = await request.json()
-    headers = {
-        'Content-Type': 'application/json'
-    }
     message = {
         'chat_id': update['message']['chat']['id'],
         'text': update['message']['text'],
     }
-    url = f'{config.API}/sendMessage'
-    params = dict(url=url, json=message, headers=headers)
     try:
-        async with aiohttp.request('POST', **params) as response:
+        async with SendMessageMethod.post_json(message) as response:
             if response.status == 200:
                 return web.Response()
     except aiohttp.client_exceptions.ClientError:
