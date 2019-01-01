@@ -34,13 +34,13 @@ async def register_webhook():
 
 
 async def webhook(request):
-    data = await request.json()
+    update = await request.json()
     headers = {
         'Content-Type': 'application/json'
     }
     message = {
-        'chat_id': data['message']['chat']['id'],
-        'text': data['message']['text'],
+        'chat_id': update['message']['chat']['id'],
+        'text': update['message']['text'],
     }
     url = f'{config.API}/sendMessage'
     params = dict(url=url, json=message, headers=headers)
