@@ -3,6 +3,7 @@ import asyncio
 import aiohttp
 from aiohttp import web
 
+import commands
 import config
 from methods import SendMessageMethod, SetWebhookMethod
 
@@ -33,7 +34,7 @@ async def webhook(request):
     update = await request.json()
     message = {
         'chat_id': update['message']['chat']['id'],
-        'text': update['message']['text'],
+        'text': commands.execute_command(update['message']['text']),
     }
     try:
         async with SendMessageMethod.post_json(message) as response:
