@@ -31,6 +31,8 @@ class AbstractCommand(metaclass=CommandMetaclass):
 
 
 class StartCommand(AbstractCommand):
+    """print available commands"""
+
     _command = 'start'
 
     def result(self) -> str:
@@ -39,6 +41,8 @@ class StartCommand(AbstractCommand):
 
 
 class EchoCommand(AbstractCommand):
+    """print input string"""
+
     _command = 'echo'
 
     def result(self) -> str:
@@ -56,4 +60,4 @@ def execute_command(text: str):
 
 if __name__ == '__main__':
     for _cmd, _cls in commands.items():
-        print(_cmd, _cls)
+        print(f'{_cmd} - {_cls.__doc__}')
