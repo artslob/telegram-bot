@@ -36,8 +36,8 @@ class StartCommand(AbstractCommand):
     _command = 'start'
 
     def result(self) -> str:
-        return ('Hello! I can process such commands:\n' +
-                '\n'.join(f'{cmd} - {cls.__name__}' for cmd, cls in commands.items()))
+        command_list = '\n'.join(f'{cmd} - {cls.__name__}' for cmd, cls in commands.items())
+        return f'Hello! I can process such commands:\n{command_list}'
 
 
 class EchoCommand(AbstractCommand):
