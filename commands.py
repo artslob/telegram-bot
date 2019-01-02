@@ -25,6 +25,10 @@ class AbstractCommand(metaclass=CommandMetaclass):
     def command(cls) -> str:
         return f'/{cls._command}'
 
+    @classmethod
+    def description(cls):
+        return cls.__doc__
+
     @abstractmethod
     def result(self) -> str:
         pass
@@ -36,7 +40,7 @@ class StartCommand(AbstractCommand):
     _command = 'start'
 
     def result(self) -> str:
-        command_list = '\n'.join(f'{cmd} - {cls.__name__}' for cmd, cls in commands.items())
+        command_list = '\n'.join(f'{cmd} - {cls.description()}' for cmd, cls in commands.items())
         return f'Hello! I can process such commands:\n{command_list}'
 
 
@@ -60,4 +64,4 @@ def execute_command(text: str):
 
 if __name__ == '__main__':
     for _cmd, _cls in commands.items():
-        print(f'{_cmd} - {_cls.__doc__}')
+        print(f'{_cmd} - {_cls.description()}')
