@@ -53,6 +53,15 @@ class EchoCommand(AbstractCommand):
         return f'{self.command()} {" ".join(self.params)}'
 
 
+class PingPongCommand(AbstractCommand):
+    """check bot availability"""
+
+    _command = 'ping'
+
+    def result(self) -> str:
+        return 'pong!'
+
+
 def execute_command(text: str):
     command, *params = text.split()
     cls = commands.get(command)
