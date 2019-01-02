@@ -72,5 +72,5 @@ def execute_command(text: str):
 
 
 if __name__ == '__main__':
-    for _cmd, _cls in commands.items():
-        print(f'{_cmd} - {_cls.description()}')
+    for _cls in commands.values():
+        print(f'{_cls._command} - {_cls.description()}')
