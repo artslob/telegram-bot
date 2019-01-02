@@ -46,7 +46,7 @@ class EchoCommand(AbstractCommand):
     _command = 'echo'
 
     def result(self) -> str:
-        return self.command() + ' ' + ' '.join(self.params)
+        return f'{self.command()} {" ".join(self.params)}'
 
 
 def execute_command(text: str):
