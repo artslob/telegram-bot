@@ -3,9 +3,9 @@ import asyncio
 import aiohttp
 from aiohttp import web
 
-import commands
 import config
-from methods import SendMessageMethod, SetWebhookMethod
+from telegram import commands
+from telegram.methods import SendMessageMethod, SetWebhookMethod
 
 
 def webhook_address():
