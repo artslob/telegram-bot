@@ -32,7 +32,12 @@ async def register_webhook():
 
 
 async def webhook(request):
+    default_response = web.Response()
+
     update = Update.from_dict(await request.json())
+    if not update.message:
+        # ignore all messages except direct from users
+        return default_response
     message = {
         'chat_id': update.message.chat.id,
         'text': commands.execute_command(update.message.text),
@@ -40,7 +45,7 @@ async def webhook(request):
     try:
         async with SendMessageMethod.post_json(message) as response:
             if response.status == 200:
-                return web.Response()
+                return default_response
     except aiohttp.client_exceptions.ClientError:
         pass
     return web.Response(status=500)
