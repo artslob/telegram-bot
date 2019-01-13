@@ -43,12 +43,10 @@ async def webhook(request):
         'text': commands.execute_command(update.message.text),
     }
     try:
-        async with SendMessageMethod.post_json(message) as response:
-            if response.status == 200:
-                return default_response
-    except aiohttp.client_exceptions.ClientError:
-        pass
-    return web.Response(status=500)
+        async with SendMessageMethod.post_json(message):
+            pass
+    finally:
+        return default_response
 
 
 def main():
