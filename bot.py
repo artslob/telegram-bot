@@ -6,6 +6,7 @@ from aiohttp import web
 import config
 from telegram import commands
 from telegram.methods import SendMessageMethod, SetWebhookMethod
+from telegram.objects import Update
 
 
 def webhook_address():
@@ -31,10 +32,10 @@ async def register_webhook():
 
 
 async def webhook(request):
-    update = await request.json()
+    update = Update.from_dict(await request.json())
     message = {
-        'chat_id': update['message']['chat']['id'],
-        'text': commands.execute_command(update['message']['text']),
+        'chat_id': update.message.chat.id,
+        'text': commands.execute_command(update.message.text),
     }
     try:
         async with SendMessageMethod.post_json(message) as response:
