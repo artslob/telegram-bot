@@ -32,21 +32,23 @@ async def register_webhook():
 
 
 async def webhook(request):
-    default_response = web.Response()
+    try:
+        await _webhook(request)
+    finally:
+        return web.Response(status=200)
 
+
+async def _webhook(request):
     update = Update.from_dict(await request.json())
     if not update.message:
-        # ignore all messages except direct from users
-        return default_response
+        return  # ignore all messages except direct from users
+
     message = {
         'chat_id': update.message.chat.id,
         'text': commands.execute_command(update.message.text),
     }
-    try:
-        async with SendMessageMethod.post_json(message):
-            pass
-    finally:
-        return default_response
+    async with SendMessageMethod.post_json(message):
+        pass
 
 
 def main():
