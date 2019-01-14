@@ -14,9 +14,7 @@ def webhook_address():
 
 
 async def register_webhook():
-    data = {
-        'url': f'{config.HOST}{webhook_address()}',
-    }
+    data = {'url': f'{config.HOST}{webhook_address()}'}
 
     for _ in range(config.WEBHOOK_RETRIES):
         try:
