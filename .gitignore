@@ -1,4 +1,4 @@
 /.idea/
 __pycache__/
-/config/__init__.py
+/config/local.py
 
