@@ -5,6 +5,7 @@ import aiohttp
 from aiohttp import web
 
 import config
+import config.args
 import config.log
 from telegram import commands
 from telegram.methods import SendMessageMethod, SetWebhookMethod
@@ -66,6 +67,10 @@ def main():
     config.log.init_log()
     logger = logging.getLogger('webhook')
 
+    # parse command line
+    parser = config.args.get_parser()
+    args = parser.parse_args()
+
     # register webhook
     loop = asyncio.get_event_loop()
     webhook_registered = loop.run_until_complete(register_webhook())
@@ -78,8 +83,8 @@ def main():
     app.add_routes([
         web.post(webhook_address(), webhook),
     ])
-    logger.info('app started')
-    web.run_app(app, host='0.0.0.0', port=config.PORT)
+    logger.info('app started on port %s', args.port)
+    web.run_app(app, host='0.0.0.0', port=args.port)
 
 
 if __name__ == '__main__':
