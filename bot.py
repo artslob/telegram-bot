@@ -44,8 +44,8 @@ async def webhook(request):
 
 async def _webhook(request):
     update = Update.from_dict(await request.json())
-    if not update.message:
-        return  # ignore all messages except direct from users
+    if not update.message or not update.message.text:
+        return  # ignore all except direct messages from users with text
 
     chat_id = update.message.chat.id
     name = update.message.chat.username
