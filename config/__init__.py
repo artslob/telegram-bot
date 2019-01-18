@@ -1,6 +1,7 @@
 import pathlib
 
 # defaults
+PORT = 8081
 WEBHOOK_RETRIES = 5
 
 # locals

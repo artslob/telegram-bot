@@ -79,7 +79,7 @@ def main():
         web.post(webhook_address(), webhook),
     ])
     logger.info('app started')
-    web.run_app(app, host='0.0.0.0', port=8081)
+    web.run_app(app, host='0.0.0.0', port=config.PORT)
 
 
 if __name__ == '__main__':
