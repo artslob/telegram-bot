@@ -11,7 +11,7 @@ LOGGING = {
     'loggers': {
         'webhook': {
             'level': 'DEBUG',
-            'handlers': ['webhook', 'exceptions', 'console'],
+            'handlers': ['webhook', 'errors', 'console'],
             'propagate': False,
         },
     },
@@ -28,11 +28,11 @@ LOGGING = {
             'formatter': 'defaultFormatter',
             'filename': str(LOG_BASE / 'webhook.log'),
         },
-        'exceptions': {
+        'errors': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
             'formatter': 'defaultFormatter',
-            'filename': str(LOG_BASE / 'exceptions.log'),
+            'filename': str(LOG_BASE / 'errors.log'),
         },
         'console': {
             'level': 'DEBUG',
