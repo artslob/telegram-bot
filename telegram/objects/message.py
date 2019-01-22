@@ -8,7 +8,7 @@ class Message(TelegramObject):
     date = RequiredField(int)
     chat = RequiredField(Chat)
     # optional
-    from_user = OptionalField(User)
+    from_user = OptionalField(User)  # TODO handle 'from' field
     text = OptionalField(str)
 
     # not complete list of fields!
