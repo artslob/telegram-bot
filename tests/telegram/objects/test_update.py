@@ -9,7 +9,7 @@ def parse_update_dict(dict_parser):
 
 
 def test_empty_dict(parse_update_dict):
-    with pytest.raises(TypeError, match='missing 1 required positional argument.*update_id') as exc_info:
+    with pytest.raises(TypeError, match='missing 1 required positional argument.*update_id'):
         parse_update_dict({})
 
 
