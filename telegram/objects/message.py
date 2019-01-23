@@ -8,7 +8,7 @@ class Message(TelegramObject):
     date = RequiredField(int)
     chat = RequiredField(Chat)
     # optional
-    from_user = OptionalField(User)  # TODO handle 'from' field
+    from_user = OptionalField(User)
     text = OptionalField(str)
 
     # not complete list of fields!
@@ -27,3 +27,9 @@ class Message(TelegramObject):
         # optional
         self.from_user = self.from_user(from_user)
         self.text = self.text(text)
+
+    @classmethod
+    def from_dict(cls, dct: dict):
+        if 'from' in dct:
+            dct['from_user'] = dct.pop('from')
+        return super().from_dict(dct)

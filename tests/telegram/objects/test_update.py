@@ -40,6 +40,7 @@ def test_update_with_message(parse_update_dict):
                 "id": 1111111,
                 "first_name": "Test Firstname",
                 "username": "Testusername",
+                "is_bot": False,
             },
             "text": "/start"
         },
