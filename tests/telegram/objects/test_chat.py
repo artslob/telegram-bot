@@ -1,6 +1,6 @@
 import pytest
 
-from telegram.objects import Chat
+from telegram.objects import Chat, Message
 
 
 @pytest.fixture()
@@ -46,13 +46,6 @@ def test_chat(parse_chat_dict):
     assert chat.all_members_are_administrators is True
     assert chat.description == 'test description'
     assert chat.invite_link == "t.me/test"
-    assert chat.pinned_message.message_id == 1365
-    assert chat.pinned_message.date == 1441645532
-    assert chat.pinned_message.chat is not None
-    assert chat.pinned_message.chat.id == 1111111
-    assert chat.pinned_message.chat.type == 'private'
-    assert chat.pinned_message.chat.username == 'Testusername'
-    assert chat.pinned_message.chat.first_name == 'Test Firstname'
-    assert chat.pinned_message.chat.last_name == 'Test Lastname'
+    assert type(chat.pinned_message) is Message
     assert chat.sticker_set_name == 'sticker test'
     assert chat.can_set_sticker_set is True

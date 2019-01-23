@@ -1,6 +1,6 @@
 import pytest
 
-from telegram.objects import Message
+from telegram.objects import Message, Chat
 
 
 @pytest.fixture()
@@ -35,11 +35,6 @@ def test_message(parse_message_dict):
     message = parse_message_dict(message_dict)
     assert message.message_id == 1365
     assert message.date == 1441645532
-    assert message.chat is not None
-    assert message.chat.id == 1111111
-    assert message.chat.type == 'private'
-    assert message.chat.username == 'Testusername'
-    assert message.chat.first_name == 'Test Firstname'
-    assert message.chat.last_name == 'Test Lastname'
+    assert type(message.chat) is Chat
     assert message.from_user is None  # FIXME
     assert message.text == '/start'
