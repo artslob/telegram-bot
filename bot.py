@@ -61,6 +61,12 @@ async def _webhook(request):
         pass
 
 
+def create_app():
+    app = web.Application()
+    app.router.add_post(webhook_address(), webhook)
+    return app
+
+
 def main():
     config.validate_config()
 
@@ -81,12 +87,8 @@ def main():
         return
 
     # start app
-    app = web.Application()
-    app.add_routes([
-        web.post(webhook_address(), webhook),
-    ])
     logger.info('app started on port %s', args.port)
-    web.run_app(app, host='0.0.0.0', port=args.port)
+    web.run_app(create_app(), host='0.0.0.0', port=args.port)
 
 
 if __name__ == '__main__':
