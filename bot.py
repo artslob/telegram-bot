@@ -62,6 +62,8 @@ async def _webhook(request):
 
 
 def main():
+    config.validate_config()
+
     # init logging
     global logger
     config.log.init_log()
