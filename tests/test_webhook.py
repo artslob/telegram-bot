@@ -63,6 +63,7 @@ async def test_webhook(patch_config, aiohttp_client, async_context, test_update_
         assert resp.status == 200
         assert await resp.text() == ''
         logger_mock.info.assert_called_once()
+        logger_mock.exception.assert_not_called()
         method_mock.assert_called_once()
         expected_answer = {'chat_id': test_update_object['message']['chat']['id'], 'text': 'pong!'}
         assert method_mock.call_args[0][0] == expected_answer
