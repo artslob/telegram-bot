@@ -44,7 +44,7 @@ LOGGING = {
         'defaultFormatter': {
             'class': 'logging.Formatter',
             'format': '[%(asctime)s] %(name)s - %(levelname)s - %(message)s',
-            'datefmt': '%d/%b/%Y %H:%M:%S',
+            'datefmt': '%d %b %Y %H:%M:%S',
         },
     },
 }
