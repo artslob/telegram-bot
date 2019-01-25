@@ -11,7 +11,7 @@ from telegram import commands
 from telegram.methods import SendMessageMethod, SetWebhookMethod
 from telegram.objects import Update
 
-logger: logging.Logger
+logger = logging.getLogger('webhook')
 
 
 def webhook_address():
@@ -69,11 +69,7 @@ def create_app():
 
 def main():
     config.validate_config()
-
-    # init logging
-    global logger
     config.log.init_log()
-    logger = logging.getLogger('webhook')
 
     # parse command line
     parser = config.args.get_parser()
