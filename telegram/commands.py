@@ -63,12 +63,17 @@ class PingPongCommand(AbstractCommand):
 
 
 def execute_command(text: str):
+    no_command = 'No such command'
+
+    if not text:
+        return no_command
+
     command, *params = text.split()
     cls = commands.get(command)
     if not cls:
-        return 'No such command'
-    obj = cls(*params)
-    return obj.result()
+        return no_command
+
+    return cls(*params).result()
 
 
 if __name__ == '__main__':
