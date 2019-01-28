@@ -31,6 +31,7 @@ LOGGING = {
         'errors': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
+            # TODO add module and line fields to errors formatter
             'formatter': 'defaultFormatter',
             'filename': str(LOG_BASE / 'errors.log'),
         },

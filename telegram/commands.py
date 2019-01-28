@@ -1,6 +1,8 @@
 import warnings
 from abc import ABCMeta, abstractmethod
 
+from api.weather.yandex import YandexWeather, BaseError as YandexWeatherBaseError
+
 commands = {}
 
 
@@ -60,6 +62,21 @@ class PingPongCommand(AbstractCommand):
 
     async def result(self) -> str:
         return 'pong!'
+
+
+class WeatherCommand(AbstractCommand):
+    """returns current weather in SPb"""
+
+    _command = 'weather'
+
+    async def result(self) -> str:
+        try:
+            dct = await YandexWeather.get_weather()
+            return YandexWeather.stringify(dct)
+        except YandexWeatherBaseError as e:
+            return f'Sorry. Error occurred during the request to API.\n{e}'
+        except KeyError:
+            return f'Sorry. Something went wrong while parsing answer from API.'
 
 
 async def execute_command(text: str):
