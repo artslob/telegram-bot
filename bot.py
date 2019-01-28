@@ -55,7 +55,7 @@ async def _webhook(request):
 
     message = {
         'chat_id': chat_id,
-        'text': commands.execute_command(text),
+        'text': await commands.execute_command(text),
     }
     async with SendMessageMethod.post_json(message):
         pass

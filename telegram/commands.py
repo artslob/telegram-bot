@@ -30,7 +30,7 @@ class AbstractCommand(metaclass=CommandMetaclass):
         return cls.__doc__
 
     @abstractmethod
-    def result(self) -> str:
+    async def result(self) -> str:
         pass
 
 
@@ -39,7 +39,7 @@ class StartCommand(AbstractCommand):
 
     _command = 'start'
 
-    def result(self) -> str:
+    async def result(self) -> str:
         command_list = '\n'.join(f'{cmd} - {cls.description()}' for cmd, cls in commands.items())
         return f'Hello! I can process such commands:\n{command_list}'
 
@@ -49,7 +49,7 @@ class EchoCommand(AbstractCommand):
 
     _command = 'echo'
 
-    def result(self) -> str:
+    async def result(self) -> str:
         return f'{self.command()} {" ".join(self.params)}'
 
 
@@ -58,11 +58,11 @@ class PingPongCommand(AbstractCommand):
 
     _command = 'ping'
 
-    def result(self) -> str:
+    async def result(self) -> str:
         return 'pong!'
 
 
-def execute_command(text: str):
+async def execute_command(text: str):
     no_command = 'No such command'
 
     if not text:
@@ -73,7 +73,7 @@ def execute_command(text: str):
     if not cls:
         return no_command
 
-    return cls(*params).result()
+    return await cls(*params).result()
 
 
 if __name__ == '__main__':
