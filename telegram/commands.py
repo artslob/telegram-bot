@@ -71,8 +71,7 @@ class WeatherCommand(AbstractCommand):
 
     async def result(self) -> str:
         try:
-            dct = await YandexWeather.get_weather()
-            return YandexWeather.stringify(dct)
+            return await YandexWeather.weather_description()
         except YandexWeatherBaseError as e:
             return f'Sorry. Error occurred during the request to API.\n{e}'
         except KeyError:

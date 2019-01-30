@@ -73,3 +73,7 @@ class YandexWeather:
         result.append('According to Yandex.Weather')
 
         return '\n'.join(result)
+
+    @classmethod
+    async def weather_description(cls):
+        return cls.stringify(await cls.get_weather())
