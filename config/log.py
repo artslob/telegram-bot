@@ -31,8 +31,7 @@ LOGGING = {
         'errors': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            # TODO add module and line fields to errors formatter
-            'formatter': 'defaultFormatter',
+            'formatter': 'errorFormatter',
             'filename': str(LOG_BASE / 'errors.log'),
         },
         'console': {
@@ -45,6 +44,11 @@ LOGGING = {
         'defaultFormatter': {
             'class': 'logging.Formatter',
             'format': '[%(asctime)s] %(name)s - %(levelname)s - %(message)s',
+            'datefmt': '%d %b %Y %H:%M:%S',
+        },
+        'errorFormatter': {
+            'class': 'logging.Formatter',
+            'format': '[%(asctime)s] %(name)s - %(levelname)s - %(pathname)s:%(lineno)d - %(message)s',
             'datefmt': '%d %b %Y %H:%M:%S',
         },
     },
