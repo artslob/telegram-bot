@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 
 # TODO value can be list
 
+# TODO make fields static factories, without need to create instance at class level of telegram object (move to init)
+
 class TelegramField(ABC):
     def __init__(self, factory):
         self.factory = factory
