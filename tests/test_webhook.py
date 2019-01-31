@@ -40,29 +40,17 @@ def test_update_object():
     }
 
 
-@pytest.fixture
-def async_context():
-    class ContextManager:
-        async def __aenter__(self):
-            pass
-
-        async def __aexit__(self, *args, **kwargs):
-            pass
-
-    return ContextManager()
-
-
 @pytest.mark.parametrize("text,answer", [
     ('/ping', 'pong!'),
     ('/echo 123 test', '/echo 123 test'),
     ('/echo      123 test', '/echo 123 test'),
 ])
-async def test_webhook(text, answer, patch_config, aiohttp_client, async_context, test_update_object):
+async def test_webhook(text, answer, patch_config, aiohttp_client, async_context_response, test_update_object):
     test_update_object['message']['text'] = text
     assert webhook_address() == f'/{patch_config.TOKEN}'
     with patch('bot.logger') as logger_mock, \
             patch('bot.SendMessageMethod.post_json') as method_mock:
-        method_mock.return_value = async_context
+        method_mock.return_value = async_context_response(200, {})
         webhook = create_app()
         client = await aiohttp_client(webhook)
         resp = await client.post(webhook_address(), json=test_update_object)
