@@ -20,7 +20,7 @@ class CommandMetaclass(ABCMeta):
 class AbstractCommand(metaclass=CommandMetaclass):
     _command = ''
 
-    def __init__(self, *params):
+    def __init__(self, params: list):
         self.params = params
 
     @classmethod
@@ -89,7 +89,7 @@ async def execute_command(text: str):
     if not cls:
         return no_command
 
-    return await cls(*params).result()
+    return await cls(params).result()
 
 
 if __name__ == '__main__':
