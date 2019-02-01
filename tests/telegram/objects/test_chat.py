@@ -38,6 +38,7 @@ def test_chat(parse_chat_dict):
         "can_set_sticker_set": True,
     }
     chat = parse_chat_dict(chat_dict)
+    assert chat.to_dict() == chat_dict
     assert chat.id == 1111111
     assert chat.type == 'private'
     assert chat.username == 'Testusername'

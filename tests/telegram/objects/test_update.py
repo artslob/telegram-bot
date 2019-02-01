@@ -46,5 +46,6 @@ def test_update_with_message(parse_update_dict):
         },
     }
     update = parse_update_dict(update_dict)
+    assert update.to_dict() == update_dict
     assert update.update_id == 10000
     assert type(update.message) is Message

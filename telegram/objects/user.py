@@ -12,6 +12,7 @@ class User(TelegramObject):
     language_code = OptionalField(str)
 
     def __init__(self,
+                 dct,
                  id,
                  is_bot,
                  first_name,
@@ -19,6 +20,7 @@ class User(TelegramObject):
                  username=None,
                  language_code=None,
                  **kwargs):
+        super().__init__(dct)
         # required
         self.id = self.id(id)
         self.is_bot = self.is_bot(is_bot)

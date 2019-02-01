@@ -14,12 +14,14 @@ class Message(TelegramObject):
     # not complete list of fields!
 
     def __init__(self,
+                 dct,
                  message_id,
                  date,
                  chat,
                  from_user=None,
                  text=None,
                  **kwargs):
+        super().__init__(dct)
         # required
         self.message_id = self.message_id(message_id)
         self.date = self.date(date)

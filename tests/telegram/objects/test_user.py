@@ -23,6 +23,7 @@ def test_user(parse_user_dict):
         "username": "Testusername"
     }
     chat = parse_user_dict(user_dict)
+    assert chat.to_dict() == user_dict
     assert chat.id == 1111111
     assert chat.is_bot is False
     assert chat.first_name == 'Test Firstname'

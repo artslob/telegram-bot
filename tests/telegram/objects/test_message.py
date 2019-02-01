@@ -34,6 +34,7 @@ def test_message(parse_message_dict):
         "text": "/start",
     }
     message = parse_message_dict(message_dict)
+    assert message.to_dict() == message_dict
     assert message.message_id == 1365
     assert message.date == 1441645532
     assert type(message.chat) is Chat

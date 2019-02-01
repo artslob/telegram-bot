@@ -20,6 +20,7 @@ class Chat(TelegramObject):
     # not complete list of fields!
 
     def __init__(self,
+                 dct,
                  id,
                  type,
                  title=None,
@@ -33,6 +34,7 @@ class Chat(TelegramObject):
                  sticker_set_name=None,
                  can_set_sticker_set=None,
                  **kwargs):
+        super().__init__(dct)
         # required
         self.id = self.id(id)
         self.type = self.type(type)

@@ -13,12 +13,14 @@ class Update(TelegramObject):
     # not complete list of fields!
 
     def __init__(self,
+                 dct,
                  update_id,
                  message=None,
                  edited_message=None,
                  channel_post=None,
                  edited_channel_post=None,
                  **kwargs):
+        super().__init__(dct)
         # required
         self.update_id = self.update_id(update_id)
         # optional
