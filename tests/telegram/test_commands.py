@@ -4,36 +4,6 @@ import pytest
 
 from api.weather.yandex import YandexWeather
 from telegram.commands import execute_command
-from telegram.objects import Update
-
-
-@pytest.fixture
-def update_object():
-    def get_object(text):
-        return Update.from_dict({
-            "update_id": 10000,
-            "message": {
-                "message_id": 1365,
-                "date": 1441645532,
-                "chat": {
-                    "id": 1111111,
-                    "type": "private",
-                    "username": "Testusername",
-                    "first_name": "Test Firstname",
-                    "last_name": "Test Lastname",
-                },
-                "from": {
-                    "last_name": "Test Lastname",
-                    "id": 1111111,
-                    "first_name": "Test Firstname",
-                    "username": "Testusername",
-                    "is_bot": False,
-                },
-                "text": text
-            },
-        })
-
-    return get_object
 
 
 @pytest.mark.parametrize('txt', [None, '', 'start', 'ping', 'echo', 'test', 'some text'])
