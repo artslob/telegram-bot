@@ -2,6 +2,7 @@ import warnings
 from abc import ABCMeta, abstractmethod
 
 from api.weather.yandex import YandexWeather, BaseError as YandexWeatherBaseError
+from telegram.objects import Update
 
 commands = {}
 
@@ -20,7 +21,8 @@ class CommandMetaclass(ABCMeta):
 class AbstractCommand(metaclass=CommandMetaclass):
     _command = ''
 
-    def __init__(self, params: list):
+    def __init__(self, update: Update, params: list):
+        self.update = update
         self.params = params
 
     @classmethod
@@ -78,8 +80,9 @@ class WeatherCommand(AbstractCommand):
             return f'Sorry. Something went wrong while parsing answer from API.'
 
 
-async def execute_command(text: str):
+async def execute_command(update: Update):
     no_command = 'No such command'
+    text = update.message.text
 
     if not text:
         return no_command
@@ -89,7 +92,7 @@ async def execute_command(text: str):
     if not cls:
         return no_command
 
-    return await cls(params).result()
+    return await cls(update, params).result()
 
 
 if __name__ == '__main__':
