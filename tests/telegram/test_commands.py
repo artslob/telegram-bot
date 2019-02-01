@@ -46,15 +46,9 @@ async def test_ping(update_object, txt):
     assert await execute_command(update_object(txt)) == 'pong!'
 
 
-@pytest.mark.parametrize('txt, expected', [
-    ('/echo', '/echo '),
-    ('/echo text', '/echo text'),
-    ('/echo     text', '/echo text'),
-    ('/echo\n\ttext\ntest\t', '/echo text test'),
-])
-async def test_echo(update_object, txt, expected):
-    # TODO fix echo command
-    assert await execute_command(update_object(txt)) == expected
+@pytest.mark.parametrize('txt', ['/echo', '/echo text', '/echo     text', '/echo\n\ttext\ntest\t'])
+async def test_echo(update_object, txt):
+    assert await execute_command(update_object(txt)) == update_object(txt).to_str()
 
 
 @pytest.mark.parametrize('txt', ['/weather', '/weather 123', '/weather\n123', '/weather\t123'])

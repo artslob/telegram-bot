@@ -16,6 +16,8 @@ def patch_config(monkeypatch):
 
 @pytest.fixture
 def test_update_object():
+    # TODO join with fixture in test_commands
+
     return {
         "update_id": 10000,
         "message": {
@@ -40,13 +42,7 @@ def test_update_object():
     }
 
 
-@pytest.mark.parametrize("text,answer", [
-    ('/ping', 'pong!'),
-    ('/echo 123 test', '/echo 123 test'),
-    ('/echo      123 test', '/echo 123 test'),
-])
-async def test_webhook(text, answer, patch_config, aiohttp_client, async_context_response, test_update_object):
-    test_update_object['message']['text'] = text
+async def test_webhook(patch_config, aiohttp_client, async_context_response, test_update_object):
     assert webhook_address() == f'/{patch_config.TOKEN}'
     with patch('bot.logger') as logger_mock, \
             patch('bot.SendMessageMethod.post_json') as method_mock:
@@ -59,5 +55,5 @@ async def test_webhook(text, answer, patch_config, aiohttp_client, async_context
         logger_mock.info.assert_called_once()
         logger_mock.exception.assert_not_called()
         method_mock.assert_called_once()
-        expected_answer = {'chat_id': test_update_object['message']['chat']['id'], 'text': answer}
+        expected_answer = {'chat_id': test_update_object['message']['chat']['id'], 'text': 'pong!'}
         assert method_mock.call_args[0][0] == expected_answer

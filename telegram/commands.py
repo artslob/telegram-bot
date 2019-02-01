@@ -49,12 +49,13 @@ class StartCommand(AbstractCommand):
 
 
 class EchoCommand(AbstractCommand):
-    """print input string"""
+    """print input telegram Update object"""
 
     _command = 'echo'
 
     async def result(self) -> str:
-        return f'{self.command()} {" ".join(self.params)}'
+        # TODO markdown code
+        return self.update.to_str()
 
 
 class PingPongCommand(AbstractCommand):
