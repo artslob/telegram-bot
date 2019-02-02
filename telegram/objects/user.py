@@ -13,10 +13,10 @@ class User(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.id = field(int, id, required=True)
-        self.is_bot = field(bool, is_bot, required=True)
-        self.first_name = field(str, first_name, required=True)
+        self.id = field(int, id, required=True)  # type: int
+        self.is_bot = field(bool, is_bot, required=True)  # type: bool
+        self.first_name = field(str, first_name, required=True)  # type: str
         # optional
-        self.last_name = field(str, last_name)
-        self.username = field(str, username)
-        self.language_code = field(str, language_code)
+        self.last_name = field(str, last_name)  # type: str
+        self.username = field(str, username)  # type: str
+        self.language_code = field(str, language_code)  # type: str

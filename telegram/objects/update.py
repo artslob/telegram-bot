@@ -14,9 +14,9 @@ class Update(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.update_id = field(int, update_id, required=True)
+        self.update_id = field(int, update_id, required=True)  # type: int
         # optional
-        self.message = field(Message, message)
-        self.edited_message = field(Message, edited_message)
-        self.channel_post = field(Message, channel_post)
-        self.edited_channel_post = field(Message, edited_channel_post)
+        self.message = field(Message, message)  # type: Message
+        self.edited_message = field(Message, edited_message)  # type: Message
+        self.channel_post = field(Message, channel_post)  # type: Message
+        self.edited_channel_post = field(Message, edited_channel_post)  # type: Message

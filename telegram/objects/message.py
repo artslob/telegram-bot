@@ -15,12 +15,12 @@ class Message(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.message_id = field(int, message_id, required=True)
-        self.date = field(int, date, required=True)
-        self.chat = field(Chat, chat, required=True)
+        self.message_id = field(int, message_id, required=True)  # type: int
+        self.date = field(int, date, required=True)  # type: int
+        self.chat = field(Chat, chat, required=True)  # type: Chat
         # optional
-        self.from_user = field(User, from_user)
-        self.text = field(str, text)
+        self.from_user = field(User, from_user)  # type: User
+        self.text = field(str, text)  # type: str
 
     @classmethod
     def from_dict(cls, dct: dict):
