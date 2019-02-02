@@ -1,16 +1,8 @@
-from telegram.objects import TelegramObject, RequiredField, OptionalField, Chat
+from telegram.objects import TelegramObject, telegram_field as field, Chat
 from telegram.objects.user import User
 
 
 class Message(TelegramObject):
-    # required
-    message_id = RequiredField(int)
-    date = RequiredField(int)
-    chat = RequiredField(Chat)
-    # optional
-    from_user = OptionalField(User)
-    text = OptionalField(str)
-
     # not complete list of fields!
 
     def __init__(self,
@@ -23,12 +15,12 @@ class Message(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.message_id = self.message_id(message_id)
-        self.date = self.date(date)
-        self.chat = self.chat(chat)
+        self.message_id = field(int, message_id, required=True)
+        self.date = field(int, date, required=True)
+        self.chat = field(Chat, chat, required=True)
         # optional
-        self.from_user = self.from_user(from_user)
-        self.text = self.text(text)
+        self.from_user = field(User, from_user)
+        self.text = field(str, text)
 
     @classmethod
     def from_dict(cls, dct: dict):

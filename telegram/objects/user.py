@@ -1,16 +1,7 @@
-from telegram.objects import TelegramObject, RequiredField, OptionalField
+from telegram.objects import TelegramObject, telegram_field as field
 
 
 class User(TelegramObject):
-    # required
-    id = RequiredField(int)
-    is_bot = RequiredField(bool)
-    first_name = RequiredField(str)
-    # optional
-    last_name = OptionalField(str)
-    username = OptionalField(str)
-    language_code = OptionalField(str)
-
     def __init__(self,
                  dct,
                  id,
@@ -22,10 +13,10 @@ class User(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.id = self.id(id)
-        self.is_bot = self.is_bot(is_bot)
+        self.id = field(int, id, required=True)
+        self.is_bot = field(bool, is_bot, required=True)
+        self.first_name = field(str, first_name, required=True)
         # optional
-        self.first_name = self.first_name(first_name)
-        self.last_name = self.last_name(last_name)
-        self.username = self.username(username)
-        self.language_code = self.language_code(language_code)
+        self.last_name = field(str, last_name)
+        self.username = field(str, username)
+        self.language_code = field(str, language_code)

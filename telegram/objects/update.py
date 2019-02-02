@@ -1,15 +1,7 @@
-from telegram.objects import TelegramObject, RequiredField, OptionalField, Message
+from telegram.objects import TelegramObject, telegram_field as field, Message
 
 
 class Update(TelegramObject):
-    # required
-    update_id = RequiredField(int)
-    # optional
-    message = OptionalField(Message)
-    edited_message = OptionalField(Message)
-    channel_post = OptionalField(Message)
-    edited_channel_post = OptionalField(Message)
-
     # not complete list of fields!
 
     def __init__(self,
@@ -22,9 +14,9 @@ class Update(TelegramObject):
                  **kwargs):
         super().__init__(dct)
         # required
-        self.update_id = self.update_id(update_id)
+        self.update_id = field(int, update_id, required=True)
         # optional
-        self.message = self.message(message)
-        self.edited_message = self.edited_message(edited_message)
-        self.channel_post = self.channel_post(channel_post)
-        self.edited_channel_post = self.edited_channel_post(edited_channel_post)
+        self.message = field(Message, message)
+        self.edited_message = field(Message, edited_message)
+        self.channel_post = field(Message, channel_post)
+        self.edited_channel_post = field(Message, edited_channel_post)
