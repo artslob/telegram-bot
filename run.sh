@@ -10,6 +10,6 @@ if [[ ! -e "$venv_root" ]]; then
 fi
 
 source "${venv_root}/bin/activate"
-python3 -m pip install -r requirments.txt
+python3 -m pip install -r requirements.txt
 python3 bot.py
 
