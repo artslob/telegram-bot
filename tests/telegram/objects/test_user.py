@@ -22,11 +22,11 @@ def test_user(parse_user_dict):
         "last_name": "Test Lastname",
         "username": "Testusername"
     }
-    chat = parse_user_dict(user_dict)
-    assert chat.to_dict() == user_dict
-    assert chat.id == 1111111
-    assert chat.is_bot is False
-    assert chat.first_name == 'Test Firstname'
-    assert chat.language_code == 'us'
-    assert chat.last_name == 'Test Lastname'
-    assert chat.username == 'Testusername'
+    user = parse_user_dict(user_dict)
+    assert user.to_dict() == user_dict
+    assert user.id == 1111111
+    assert user.is_bot is False
+    assert user.first_name == 'Test Firstname'
+    assert user.language_code == 'us'
+    assert user.last_name == 'Test Lastname'
+    assert user.username == 'Testusername'
