@@ -57,8 +57,9 @@ async def _webhook(request):
         'chat_id': chat_id,
         'text': await commands.execute_command(update),
     }
-    async with SendMessageMethod.post_json(message):
-        pass
+    async with SendMessageMethod.post_json(message) as response:
+        if response.status != 200:
+            logger.error('error while sending answer, status: %s', response.status)
 
 
 def create_app():
