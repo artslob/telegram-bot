@@ -1,3 +1,4 @@
+import logging
 import warnings
 from abc import ABCMeta, abstractmethod
 
@@ -5,6 +6,8 @@ from api.weather.yandex import YandexWeather, BaseError as YandexWeatherBaseErro
 from telegram.objects import Update
 
 commands = {}
+
+error_log = logging.getLogger('errors')
 
 
 class CommandMetaclass(ABCMeta):
@@ -76,8 +79,10 @@ class WeatherCommand(AbstractCommand):
         try:
             return await YandexWeather.weather_description()
         except YandexWeatherBaseError as e:
+            error_log.exception('API error')
             return f'Sorry. Error occurred during the request to API.\n{e}'
         except KeyError:
+            error_log.exception('parsing error')
             return f'Sorry. Something went wrong while parsing answer from API.'
 
 
