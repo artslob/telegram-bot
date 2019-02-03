@@ -14,6 +14,11 @@ LOGGING = {
             'handlers': ['webhook', 'errors', 'console'],
             'propagate': False,
         },
+        'errors': {
+            'level': 'ERROR',
+            'handlers': ['errors'],
+            'propagate': False,
+        },
     },
     'handlers': {
         'root': {
