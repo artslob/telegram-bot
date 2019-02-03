@@ -10,7 +10,10 @@ TOKEN = NotImplemented
 HOST = NotImplemented
 X_YANDEX_API_KEY = NotImplemented
 
-from config.local import *
+try:
+    from config.local import *
+except ImportError:
+    pass
 
 PROJECT_DIR = pathlib.Path(__file__).parent.parent
 LOG_BASE = PROJECT_DIR / 'logs'
