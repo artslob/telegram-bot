@@ -3,3 +3,4 @@ aiohttp==3.5.1
 # tests
 pytest==4.1.1
 pytest-aiohttp==0.3.0
+flake8==3.7.5
