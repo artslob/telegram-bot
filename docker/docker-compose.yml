@@ -16,6 +16,6 @@ services:
       # to preserve logs
       - ../logs:/app/logs
     networks:
-      - botnet
+      - default_network
 networks:
-  botnet:
+  default_network:
