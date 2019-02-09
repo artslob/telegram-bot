@@ -1,0 +1,21 @@
+version: '3.7'
+
+# use this file for development and testing only
+
+services:
+  python-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: artslob/python-bot:latest
+    ports:
+      - "8081:8081"
+    volumes:
+      # to provide config with secrets to container
+      - ../config/local.py:/app/config/local.py
+      # to preserve logs
+      - ../logs:/app/logs
+    networks:
+      - botnet
+networks:
+  botnet:
