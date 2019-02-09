@@ -6,6 +6,9 @@ WEBHOOK_RETRIES = 5
 YANDEX_API_URL = 'https://api.weather.yandex.ru/v1/forecast'
 
 # locals
+# TODO use docker secrets feature
+# right now in docker you should mount config/local.py to container:
+# -v ${PWD}/config/local.py:/app/config/local.py
 TOKEN = NotImplemented
 HOST = NotImplemented
 X_YANDEX_API_KEY = NotImplemented

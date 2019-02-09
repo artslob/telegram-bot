@@ -1,0 +1,7 @@
+.git
+.idea
+/config/local.py
+**/__pycache__
+**/*.pyc
+**/*.log
+**/*.secret
