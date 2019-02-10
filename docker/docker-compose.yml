@@ -11,8 +11,10 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      # to provide config with secrets to container
-      - ../config/local.py:/app/config/local.py
+      # provide secrets to container
+      - ../secrets/host.secret:/run/secrets/host.secret
+      - ../secrets/token.secret:/run/secrets/token.secret
+      - ../secrets/x_yandex_api_key.secret:/run/secrets/x_yandex_api_key.secret
       # to preserve logs
       - ../logs:/app/logs
     networks:

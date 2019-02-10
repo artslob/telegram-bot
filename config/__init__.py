@@ -1,22 +1,24 @@
 import pathlib
 
+
+def read_secret(name: str) -> str:
+    secret = pathlib.Path(f'/run/secrets/{name}.secret')
+    if not secret.is_file():
+        return NotImplemented
+
+    with open(secret) as f:
+        return f.readline().strip()
+
+
 # defaults
 PORT = 8081
 WEBHOOK_RETRIES = 5
 YANDEX_API_URL = 'https://api.weather.yandex.ru/v1/forecast'
 
-# locals
-# TODO use docker secrets feature
-# right now in docker you should mount config/local.py to container:
-# -v ${PWD}/config/local.py:/app/config/local.py
-TOKEN = NotImplemented
-HOST = NotImplemented
-X_YANDEX_API_KEY = NotImplemented
-
-try:
-    from config.local import *
-except ImportError:
-    pass
+# secrets
+TOKEN = read_secret('token')
+HOST = read_secret('host')
+X_YANDEX_API_KEY = read_secret('x_yandex_api_key')
 
 PROJECT_DIR = pathlib.Path(__file__).parent.parent
 LOG_BASE = PROJECT_DIR / 'logs'
