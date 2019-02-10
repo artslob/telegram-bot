@@ -1,0 +1,22 @@
+version: '3.7'
+
+# use this file for testing only
+
+services:
+  python-bot-test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: artslob/python-bot:test
+    networks:
+      - test_network
+    depends_on:
+      - redis-test
+  redis-test:
+    image: redis:5.0.3-alpine
+    hostname: redis
+    networks:
+      - test_network
+
+networks:
+  test_network:
