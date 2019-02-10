@@ -1,6 +1,6 @@
 version: '3.7'
 
-# use this file for development and testing only
+# use this file for development only
 
 services:
   python-bot:
