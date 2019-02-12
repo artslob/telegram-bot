@@ -21,6 +21,8 @@ services:
       - default_network
     depends_on:
       - redis
+    environment:
+      - REDIS_HOST=redis
   redis:
     image: redis:5.0.3-alpine
     command: ["redis-server", "--appendonly", "yes"]

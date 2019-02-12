@@ -1,4 +1,6 @@
 language: python
+env:
+  - REDIS_HOST=localhost
 python:
   - "3.6-dev"
 install:

@@ -1,3 +1,4 @@
+import os
 import pathlib
 
 
@@ -14,6 +15,7 @@ def read_secret(name: str) -> str:
 PORT = 8081
 WEBHOOK_RETRIES = 5
 YANDEX_API_URL = 'https://api.weather.yandex.ru/v1/forecast'
+REDIS_HOST = os.environ['REDIS_HOST']
 
 # secrets
 TOKEN = read_secret('token')

@@ -12,6 +12,8 @@ services:
       - test_network
     depends_on:
       - redis-test
+    environment:
+      - REDIS_HOST=redis-test
     command: python3 -m pytest tests/ -s
   redis-test:
     image: redis:5.0.3-alpine
