@@ -2,6 +2,7 @@ import aiohttp
 
 import config
 from api.weather.yandex.exceptions import ForbiddenRequestError, UnknownRequestError
+from utils.redis import redis_cache
 
 
 class YandexWeather:
@@ -28,8 +29,9 @@ class YandexWeather:
         1: 'mainly cloudy',
     }
 
-    @classmethod
-    async def get_weather(cls) -> dict:
+    @staticmethod
+    @redis_cache(50)
+    async def get_weather() -> dict:
         headers = {'X-Yandex-API-Key': config.X_YANDEX_API_KEY}
 
         params = {
