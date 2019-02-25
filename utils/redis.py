@@ -15,10 +15,9 @@ class RedisDB:
 
     @classmethod
     async def create(cls):
-        if cls._redis is not None:
-            return cls._redis
+        if cls._redis is None:
+            cls._redis = await aioredis.create_redis_pool(f'redis://{config.REDIS_HOST}')
 
-        cls._redis = await aioredis.create_redis_pool(f'redis://{config.REDIS_HOST}')
         return cls._redis
 
 
