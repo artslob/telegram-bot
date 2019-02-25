@@ -7,6 +7,8 @@ import aioredis
 
 import config
 
+now_func = datetime.now
+
 
 class RedisDB:
     _redis: aioredis.Redis = None
@@ -58,12 +60,13 @@ def redis_cache(calls_per_date: int):
             nonlocal last_accessed, cached_value
 
             redis = await RedisDB.create()
-            now = datetime.now()
+            now = now_func()
 
             if last_accessed is not None:
                 # value expired and should be updated
                 if last_accessed + delta < now:
                     cached_value = await func()
+                    cached_value['_cache_updated'] = DatetimeDump.dump(now)
                     last_accessed = now
                     await redis.set(value_key, json.dumps(cached_value))
                     await redis.set(time_key, DatetimeDump.dump(last_accessed))
@@ -75,6 +78,7 @@ def redis_cache(calls_per_date: int):
             # database does not have values
             if date_string is None:
                 cached_value = await func()
+                cached_value['_cache_updated'] = DatetimeDump.dump(now)
                 last_accessed = now
                 await redis.set(value_key, json.dumps(cached_value))
                 await redis.set(time_key, DatetimeDump.dump(last_accessed))
@@ -84,6 +88,7 @@ def redis_cache(calls_per_date: int):
             last_accessed = DatetimeDump.restore(date_string)
             if last_accessed + delta < now:
                 cached_value = await func()
+                cached_value['_cache_updated'] = DatetimeDump.dump(now)
                 last_accessed = now
                 await redis.set(value_key, json.dumps(cached_value))
                 await redis.set(time_key, DatetimeDump.dump(last_accessed))
