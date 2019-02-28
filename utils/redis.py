@@ -34,6 +34,13 @@ class DatetimeDump:
 
 
 def redis_cache(calls_per_date: int):
+    """
+    Cache function result in redis database.
+
+    :param calls_per_date: How many times in 24 hours call to original function can be done.
+    :return: Decorator that accepts coroutine that has no params.
+        That function should return dict object which should be JSON serializable.
+    """
     if calls_per_date <= 0:
         raise ValueError('calls per day should be positive number')
 
