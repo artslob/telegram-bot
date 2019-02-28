@@ -62,6 +62,9 @@ def redis_cache(calls_per_date: int):
             await redis.set(value_key, json.dumps(cached_value))
             await redis.set(time_key, last_accessed_dumped)
 
+        def cache_expired(now: datetime):
+            return last_accessed + delta < now
+
         @wraps(func)
         async def wrapper():
             # TODO use transactions
@@ -71,8 +74,7 @@ def redis_cache(calls_per_date: int):
             now = now_func()
 
             if last_accessed is not None:
-                # value expired and should be updated
-                if last_accessed + delta < now:
+                if cache_expired(now):
                     await update_cache(redis, now)
                 return cached_value
 
@@ -85,7 +87,7 @@ def redis_cache(calls_per_date: int):
 
             # database have values
             last_accessed = DatetimeDump.restore(date_string)
-            if last_accessed + delta < now:
+            if cache_expired(now):
                 await update_cache(redis, now)
                 return cached_value
 
