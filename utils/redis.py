@@ -53,9 +53,18 @@ def redis_cache(calls_per_date: int):
         last_accessed: datetime = None
         cached_value: dict = None
 
+        async def update_cache(redis, now: datetime):
+            nonlocal last_accessed, cached_value
+            last_accessed = now
+            last_accessed_dumped = DatetimeDump.dump(now)
+            cached_value = await func()
+            cached_value['_cache_updated'] = last_accessed_dumped
+            await redis.set(value_key, json.dumps(cached_value))
+            await redis.set(time_key, last_accessed_dumped)
+
         @wraps(func)
         async def wrapper():
-            # TODO move duplicate code to function, use transactions
+            # TODO use transactions
             nonlocal last_accessed, cached_value
 
             redis = await RedisDB.create()
@@ -64,33 +73,20 @@ def redis_cache(calls_per_date: int):
             if last_accessed is not None:
                 # value expired and should be updated
                 if last_accessed + delta < now:
-                    cached_value = await func()
-                    cached_value['_cache_updated'] = DatetimeDump.dump(now)
-                    last_accessed = now
-                    await redis.set(value_key, json.dumps(cached_value))
-                    await redis.set(time_key, DatetimeDump.dump(last_accessed))
-
+                    await update_cache(redis, now)
                 return cached_value
 
             date_string = await redis.get(time_key, encoding='utf-8')
 
             # database does not have values
             if date_string is None:
-                cached_value = await func()
-                cached_value['_cache_updated'] = DatetimeDump.dump(now)
-                last_accessed = now
-                await redis.set(value_key, json.dumps(cached_value))
-                await redis.set(time_key, DatetimeDump.dump(last_accessed))
+                await update_cache(redis, now)
                 return cached_value
 
             # database have values
             last_accessed = DatetimeDump.restore(date_string)
             if last_accessed + delta < now:
-                cached_value = await func()
-                cached_value['_cache_updated'] = DatetimeDump.dump(now)
-                last_accessed = now
-                await redis.set(value_key, json.dumps(cached_value))
-                await redis.set(time_key, DatetimeDump.dump(last_accessed))
+                await update_cache(redis, now)
                 return cached_value
 
             cached_value = json.loads(await redis.get(value_key, encoding='utf-8'))
