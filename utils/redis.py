@@ -25,11 +25,11 @@ class DatetimeDump:
     date_fmt = '%Y-%m-%d %H:%M:%S.%f'
 
     @classmethod
-    def dump(cls, value: datetime) -> str:
+    def dumps(cls, value: datetime) -> str:
         return value.strftime(cls.date_fmt)
 
     @classmethod
-    def restore(cls, value: str) -> datetime:
+    def loads(cls, value: str) -> datetime:
         return datetime.strptime(value, cls.date_fmt)
 
 
@@ -63,7 +63,7 @@ def redis_cache(calls_per_date: int):
         async def update_cache(redis, now: datetime):
             nonlocal last_accessed, cached_value
             last_accessed = now
-            last_accessed_dumped = DatetimeDump.dump(now)
+            last_accessed_dumped = DatetimeDump.dumps(now)
             cached_value = await func()
             cached_value['_cache_updated'] = last_accessed_dumped
             await redis.set(value_key, json.dumps(cached_value))
@@ -93,7 +93,7 @@ def redis_cache(calls_per_date: int):
                 return cached_value
 
             # database have values
-            last_accessed = DatetimeDump.restore(date_string)
+            last_accessed = DatetimeDump.loads(date_string)
             if cache_expired(now):
                 await update_cache(redis, now)
                 return cached_value
