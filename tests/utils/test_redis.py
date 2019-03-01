@@ -31,7 +31,7 @@ async def test_redis_singleton(redis_fixture):
 async def test_set_get(redis_fixture):
     redis, fin = redis_fixture
     await redis.set('my-key', 'value')
-    assert b'value' == await redis.get('my-key')
+    assert 'value' == await redis.get('my-key')
     await fin
 
 
@@ -54,7 +54,7 @@ async def test_datetime_dump(redis_fixture):
     redis, fin = redis_fixture
     now = datetime.now()
     await redis.set('datetime', DatetimeDump.dumps(now))
-    result = DatetimeDump.loads(await redis.get('datetime', encoding='utf-8'))
+    result = DatetimeDump.loads(await redis.get('datetime'))
     assert now == result
     await fin
 
@@ -74,19 +74,19 @@ async def test_cached_api_call(redis_fixture, yandex_weather_json, async_context
 
         result = await weather.YandexWeather.get_weather()
         assert result['_cache_updated'] == DatetimeDump.dumps(start_datetime)
-        assert await redis.get(time_key, encoding='utf-8') == DatetimeDump.dumps(start_datetime)
+        assert await redis.get(time_key) == DatetimeDump.dumps(start_datetime)
         request_mock.assert_called_once()
 
         result = await weather.YandexWeather.get_weather()
         assert result['_cache_updated'] == DatetimeDump.dumps(start_datetime)
-        assert await redis.get(time_key, encoding='utf-8') == DatetimeDump.dumps(start_datetime)
+        assert await redis.get(time_key) == DatetimeDump.dumps(start_datetime)
         request_mock.assert_called_once()
 
         second_datetime = start_datetime + timedelta(minutes=30)
         now_mock.return_value = second_datetime
         result = await weather.YandexWeather.get_weather()
         assert result['_cache_updated'] == DatetimeDump.dumps(second_datetime)
-        assert await redis.get(time_key, encoding='utf-8') == DatetimeDump.dumps(second_datetime)
+        assert await redis.get(time_key) == DatetimeDump.dumps(second_datetime)
         assert request_mock.call_count == 2
 
         await fin
@@ -110,7 +110,7 @@ async def test_cached_api_call_in_database(redis_fixture, yandex_weather_json, a
 
         result = await weather.YandexWeather.get_weather()
         assert '_cache_updated' not in result
-        assert await redis.get(time_key, encoding='utf-8') == DatetimeDump.dumps(start_datetime)
+        assert await redis.get(time_key) == DatetimeDump.dumps(start_datetime)
         request_mock.assert_not_called()
 
         await fin
@@ -130,12 +130,12 @@ async def test_cached_api_call_in_database_expired(redis_fixture, yandex_weather
         time_key = 'api.weather.yandex.yandex/YandexWeather.get_weather/__time__'
         value_key = 'api.weather.yandex.yandex/YandexWeather.get_weather/__value__'
         await redis.set(time_key, DatetimeDump.dumps(start_datetime - timedelta(minutes=30)))
-        assert await redis.get(value_key, encoding='utf-8') is None
+        assert await redis.get(value_key) is None
 
         result = await weather.YandexWeather.get_weather()
         assert result['_cache_updated'] == DatetimeDump.dumps(start_datetime)
-        assert await redis.get(time_key, encoding='utf-8') == DatetimeDump.dumps(start_datetime)
-        assert await redis.get(value_key, encoding='utf-8') == json.dumps(yandex_weather_json)
+        assert await redis.get(time_key) == DatetimeDump.dumps(start_datetime)
+        assert await redis.get(value_key) == json.dumps(yandex_weather_json)
         request_mock.assert_called_once()
 
         await fin

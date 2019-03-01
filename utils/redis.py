@@ -16,7 +16,7 @@ class RedisDB:
     @classmethod
     async def create(cls):
         if cls._redis is None:
-            cls._redis = await aioredis.create_redis_pool(f'redis://{config.REDIS_HOST}')
+            cls._redis = await aioredis.create_redis_pool(f'redis://{config.REDIS_HOST}', encoding='utf-8')
 
         return cls._redis
 
@@ -85,7 +85,7 @@ def redis_cache(calls_per_date: int):
                     await update_cache(redis, now)
                 return cached_value
 
-            date_string = await redis.get(time_key, encoding='utf-8')
+            date_string = await redis.get(time_key)
 
             # database does not have values
             if date_string is None:
@@ -98,7 +98,7 @@ def redis_cache(calls_per_date: int):
                 await update_cache(redis, now)
                 return cached_value
 
-            cached_value = json.loads(await redis.get(value_key, encoding='utf-8'))
+            cached_value = json.loads(await redis.get(value_key))
             return cached_value
 
         return wrapper
