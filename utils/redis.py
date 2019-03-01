@@ -38,7 +38,7 @@ def redis_cache(calls_per_date: int):
     Cache function result in redis database.
 
     :param calls_per_date: How many times in 24 hours call to original function can be done.
-    :return: Decorator that accepts coroutine that has no params.
+    :return: Decorator that accepts coroutine that has no params (original function should be stateless).
         That function should return dict object which should be JSON serializable.
     """
     if calls_per_date <= 0:
