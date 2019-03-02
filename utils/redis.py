@@ -67,15 +67,17 @@ def redis_cache(calls_per_date: int):
             last_accessed_dumped = DatetimeDump.dumps(now)
             cached_value = await func()
             cached_value['_cache_updated'] = last_accessed_dumped
-            await redis.set(value_key, json.dumps(cached_value))
-            await redis.set(time_key, last_accessed_dumped)
+            tr = redis.multi_exec()
+            tr.set(value_key, json.dumps(cached_value))
+            tr.set(time_key, last_accessed_dumped)
+            await tr.execute()
 
         def cache_expired(now: datetime):
             return last_accessed + delta < now
 
         @wraps(func)
         async def wrapper():
-            # TODO use transactions
+            # TODO think about case when several clients try to cache same function in same db
             nonlocal last_accessed, cached_value
 
             redis = await RedisDB.create()
