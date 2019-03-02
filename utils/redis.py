@@ -63,10 +63,10 @@ def redis_cache(calls_per_date: int):
 
         async def update_cache(redis, now: datetime):
             nonlocal last_accessed, cached_value
-            last_accessed = now
             last_accessed_dumped = DatetimeDump.dumps(now)
             cached_value = await func()
             cached_value['_cache_updated'] = last_accessed_dumped
+            last_accessed = now
             tr = redis.multi_exec()
             tr.set(value_key, json.dumps(cached_value))
             tr.set(time_key, last_accessed_dumped)
