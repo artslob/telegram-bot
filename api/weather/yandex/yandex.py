@@ -70,6 +70,9 @@ class YandexWeather:
         if 'cloudness' in dct['fact']:
             result.append(f'Cloudiness: {cls.cloudiness.get(dct["fact"]["cloudness"], "unknown")}')
 
+        if '_cache_updated' in dct:
+            result.append(f'Cached: {dct["_cache_updated"][:-7]}')
+
         result.append('According to Yandex.Weather')
 
         return '\n'.join(result)
