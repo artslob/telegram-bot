@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/artslob/artslob-bot.svg?branch=master)](https://travis-ci.com/artslob/artslob-bot)
 [![codecov](https://codecov.io/gh/artslob/artslob-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/artslob/artslob-bot)
-![GitHub](https://img.shields.io/github/license/artslob/artslob-bot.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 Это простой бот для телеграмма.  
 Особенности:
