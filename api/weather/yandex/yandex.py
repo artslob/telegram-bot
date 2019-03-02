@@ -35,11 +35,9 @@ class YandexWeather:
         headers = {'X-Yandex-API-Key': config.X_YANDEX_API_KEY}
 
         params = {
-            'lat': '59.93863', 'lon': '30.31413',
+            'lat': '59.93863',
+            'lon': '30.31413',
             'lang': 'ru_RU',
-            'limit': '1',
-            'hours': 'false',
-            'extra': 'true',
         }
 
         kwargs = dict(url=config.YANDEX_API_URL, params=params, headers=headers)

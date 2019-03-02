@@ -14,7 +14,7 @@ def read_secret(name: str) -> str:
 # defaults
 PORT = 8081
 WEBHOOK_RETRIES = 5
-YANDEX_API_URL = 'https://api.weather.yandex.ru/v1/forecast'
+YANDEX_API_URL = 'https://api.weather.yandex.ru/v1/informers'
 REDIS_HOST = os.environ['REDIS_HOST']
 
 # secrets
