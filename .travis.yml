@@ -15,7 +15,10 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 install:
   - pip install -r requirements.txt
+  - pip install pytest-cov codecov
 script:
   - flake8 .
-  - python3 -m pytest tests/
+  - python3 -m pytest --cov-report=xml --cov=. tests/
   - docker-compose -f docker/compose-test.yml up --build --abort-on-container-exit --exit-code-from python-bot-test
+after_success:
+  - codecov
