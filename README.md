@@ -1,6 +1,7 @@
 # Telegram bot
 
 [![Build Status](https://travis-ci.com/artslob/artslob-bot.svg?branch=master)](https://travis-ci.com/artslob/artslob-bot)
+[![codecov](https://codecov.io/gh/artslob/artslob-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/artslob/artslob-bot)
 
 Это простой бот для телеграмма.  
 Особенности:
