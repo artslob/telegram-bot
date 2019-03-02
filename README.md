@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/artslob/artslob-bot.svg?branch=master)](https://travis-ci.com/artslob/artslob-bot)
 [![codecov](https://codecov.io/gh/artslob/artslob-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/artslob/artslob-bot)
+![GitHub](https://img.shields.io/github/license/artslob/artslob-bot.svg)
 
 Это простой бот для телеграмма.  
 Особенности:
