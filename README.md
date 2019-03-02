@@ -1,4 +1,7 @@
 # Telegram bot
+
+[![Build Status](https://travis-ci.com/artslob/artslob-bot.svg?branch=master)](https://travis-ci.com/artslob/artslob-bot)
+
 Это простой бот для телеграмма.  
 Особенности:
 1. написан на python3.6 с асинхронной обработкой запросов ([aiohttp](https://aiohttp.readthedocs.io/en/stable/));
