@@ -26,3 +26,16 @@ async def test_unexpected_status(status, async_context_response):
         request_mock.return_value = async_context_response(status, {})
         with pytest.raises(UnknownRequestError):
             await YandexWeather.get_weather.__wrapped__()
+
+
+async def test_stringify(async_context_response, yandex_weather_json):
+    with patch('aiohttp.request') as request_mock:
+        request_mock.return_value = async_context_response(200, yandex_weather_json)
+        dct = await YandexWeather.get_weather.__wrapped__()
+        result = YandexWeather.stringify(dct)
+        assert result == '\n'.join(['Detailed: https://yandex.ru/pogoda/?lat=59.93863&lon=30.31413',
+                                    'Temperature: -14 °C',
+                                    'Condition: cloudy',
+                                    'Wind speed: 2 m/s',
+                                    'Humidity: 78 %',
+                                    'According to Yandex.Weather', ])
