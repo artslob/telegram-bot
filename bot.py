@@ -68,7 +68,7 @@ def create_app():
     return app
 
 
-def main():
+def main():  # pragma: no cover
     config.validate_config()
     config.log.init_log()
 
