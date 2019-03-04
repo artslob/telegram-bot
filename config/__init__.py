@@ -28,7 +28,7 @@ LOG_BASE = PROJECT_DIR / 'logs'
 API = f'https://api.telegram.org/bot{TOKEN}'
 
 
-def validate_config():
+def validate_config():  # pragma: no cover
     for _k, _v in tuple(globals().items()):
         if _v is NotImplemented:
             raise NotImplementedError(_k)
