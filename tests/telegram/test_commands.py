@@ -21,6 +21,16 @@ async def test_echo(update_object, txt):
     assert await execute_command(update_object(txt)) == update_object(txt).to_str()
 
 
+@pytest.mark.parametrize('txt', ['/start', '/start text', '/start     text', '/start\n\ttext\ntest\t'])
+async def test_start(update_object, txt):
+    result = await execute_command(update_object(txt))
+    assert result == '\n'.join(['Hello! I can process such commands:',
+                                '/start - print available commands',
+                                '/echo - print input telegram Update object',
+                                '/ping - check bot availability',
+                                '/weather - returns current weather in SPb'])
+
+
 @pytest.mark.parametrize('txt', ['/weather', '/weather 123', '/weather\n123', '/weather\t123'])
 async def test_weather(txt, yandex_weather_json, async_context_response, update_object, redis_fixture):
     with patch('aiohttp.request') as request_mock, \
