@@ -1,6 +1,21 @@
 import pytest
 
 from telegram.objects import Update
+from utils.redis import RedisDB
+
+
+@pytest.fixture
+async def redis_fixture(loop):
+    redis = await RedisDB.create()
+    await redis.flushdb()
+
+    # should be awaited in test!
+    async def fin():
+        redis.close()
+        await redis.wait_closed()
+        RedisDB._redis = None
+
+    return redis, fin()
 
 
 @pytest.fixture

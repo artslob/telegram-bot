@@ -3,24 +3,8 @@ import json
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
-import pytest
-
 import api.weather.yandex.yandex as weather
 from utils.redis import RedisDB, DatetimeDump
-
-
-@pytest.fixture
-async def redis_fixture(loop):
-    redis = await RedisDB.create()
-    await redis.flushdb()
-
-    # should be awaited in test!
-    async def fin():
-        redis.close()
-        await redis.wait_closed()
-        RedisDB._redis = None
-
-    return redis, fin()
 
 
 async def test_redis_singleton(redis_fixture):
