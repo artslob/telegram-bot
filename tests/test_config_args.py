@@ -24,8 +24,9 @@ def test_port_not_positive(parse, capsys, number):
     assert captured.err.endswith('error: argument -p/--port: value should be positive\n')
 
 
-def test_port_not_integer(parse, capsys):
+@pytest.mark.parametrize('number', ['asd', '1a3', '0x30'])
+def test_port_not_integer(parse, capsys, number):
     with pytest.raises(SystemExit):
-        parse(['-p', 'asd'])
+        parse(['-p', number])
     captured = capsys.readouterr()
-    assert captured.err.endswith("error: argument -p/--port: not integer value: 'asd'\n")
+    assert captured.err.endswith(f"error: argument -p/--port: not integer value: '{number}'\n")
