@@ -59,8 +59,8 @@ class EchoCommand(AbstractCommand):
     _command = 'echo'
 
     async def result(self) -> SendMessageObject:
-        # TODO markdown code
-        return SendMessageObject(self.chat_id, self.update.to_str())
+        text = f'```\n{self.update.to_str()}\n```'
+        return SendMessageObject(self.chat_id, text, parse_mode='markdown')
 
 
 class PingPongCommand(AbstractCommand):

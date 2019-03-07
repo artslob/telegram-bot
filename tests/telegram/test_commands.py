@@ -21,7 +21,7 @@ async def test_ping(update_object, txt):
 @pytest.mark.parametrize('txt', ['/echo', '/echo text', '/echo     text', '/echo\n\ttext\ntest\t'])
 async def test_echo(update_object, txt):
     send_message = await execute_command(123, update_object(txt))
-    assert send_message.text == update_object(txt).to_str()
+    assert send_message.text == f'```\n{update_object(txt).to_str()}\n```'
 
 
 @pytest.mark.parametrize('txt', ['/start', '/start text', '/start     text', '/start\n\ttext\ntest\t'])
