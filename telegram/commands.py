@@ -86,7 +86,7 @@ class WeatherCommand(AbstractCommand):
         except KeyError:
             error_log.exception('parsing error')
             text = f'Sorry. Something went wrong while parsing answer from API.'
-        return SendMessageObject(self.chat_id, text)
+        return SendMessageObject(self.chat_id, text, disable_web_page_preview=True)
 
 
 async def execute_command(chat_id, update: Update) -> SendMessageObject:
