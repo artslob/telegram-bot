@@ -3,7 +3,7 @@ import warnings
 from abc import ABCMeta, abstractmethod
 
 from api.weather.yandex import YandexWeather, BaseError as YandexWeatherBaseError
-from telegram.objects import Update
+from telegram.objects import Update, SendMessageObject
 
 commands = {}
 
@@ -24,7 +24,8 @@ class CommandMetaclass(ABCMeta):
 class AbstractCommand(metaclass=CommandMetaclass):
     _command = ''
 
-    def __init__(self, update: Update, params: list):
+    def __init__(self, chat_id, update: Update, params: list):
+        self.chat_id = chat_id
         self.update = update
         self.params = params
 
@@ -37,7 +38,7 @@ class AbstractCommand(metaclass=CommandMetaclass):
         return cls.__doc__
 
     @abstractmethod
-    async def result(self) -> str:
+    async def result(self) -> SendMessageObject:
         pass
 
 
@@ -46,9 +47,10 @@ class StartCommand(AbstractCommand):
 
     _command = 'start'
 
-    async def result(self) -> str:
+    async def result(self) -> SendMessageObject:
         command_list = '\n'.join(f'{cmd} - {cls.description()}' for cmd, cls in commands.items())
-        return f'Hello! I can process such commands:\n{command_list}'
+        text = f'Hello! I can process such commands:\n{command_list}'
+        return SendMessageObject(self.chat_id, text)
 
 
 class EchoCommand(AbstractCommand):
@@ -56,9 +58,9 @@ class EchoCommand(AbstractCommand):
 
     _command = 'echo'
 
-    async def result(self) -> str:
+    async def result(self) -> SendMessageObject:
         # TODO markdown code
-        return self.update.to_str()
+        return SendMessageObject(self.chat_id, self.update.to_str())
 
 
 class PingPongCommand(AbstractCommand):
@@ -66,8 +68,8 @@ class PingPongCommand(AbstractCommand):
 
     _command = 'ping'
 
-    async def result(self) -> str:
-        return 'pong!'
+    async def result(self) -> SendMessageObject:
+        return SendMessageObject(self.chat_id, 'pong!')
 
 
 class WeatherCommand(AbstractCommand):
@@ -75,19 +77,20 @@ class WeatherCommand(AbstractCommand):
 
     _command = 'weather'
 
-    async def result(self) -> str:
+    async def result(self) -> SendMessageObject:
         try:
-            return await YandexWeather.weather_description()
+            text = await YandexWeather.weather_description()
         except YandexWeatherBaseError as e:
             error_log.exception('API error')
-            return f'Sorry. Error occurred during the request to API.\n{e}'
+            text = f'Sorry. Error occurred during the request to API.\n{e}'
         except KeyError:
             error_log.exception('parsing error')
-            return f'Sorry. Something went wrong while parsing answer from API.'
+            text = f'Sorry. Something went wrong while parsing answer from API.'
+        return SendMessageObject(self.chat_id, text)
 
 
-async def execute_command(update: Update):
-    no_command = 'No such command'
+async def execute_command(chat_id, update: Update) -> SendMessageObject:
+    no_command = SendMessageObject(chat_id, 'No such command')
     text = update.message.text
 
     if not text:
@@ -98,7 +101,7 @@ async def execute_command(update: Update):
     if not cls:
         return no_command
 
-    return await cls(update, params).result()
+    return await cls(chat_id, update, params).result()
 
 
 if __name__ == '__main__':

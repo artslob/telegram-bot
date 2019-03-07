@@ -14,3 +14,8 @@ class TelegramObject:
 
     def to_str(self):
         return json.dumps(self.to_dict(), indent=4)
+
+
+class TelegramMethodObject:
+    def to_dict(self):
+        return {k: v for k, v in vars(self).items() if v is not None}

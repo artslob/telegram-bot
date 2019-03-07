@@ -53,11 +53,9 @@ async def _webhook(request):
     text = update.message.text
     logger.info('got message from id: %s, username: %s with text %s', chat_id, name, text)
 
-    message = {
-        'chat_id': chat_id,
-        'text': await commands.execute_command(update),
-    }
-    async with SendMessageMethod.post_json(message) as response:
+    send_message_object = await commands.execute_command(chat_id, update)
+
+    async with SendMessageMethod.post_json(send_message_object.to_dict()) as response:
         if response.status != 200:
             logger.error('error while sending answer, status: %s', response.status)
 
