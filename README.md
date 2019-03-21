@@ -1,7 +1,7 @@
 # Telegram bot
 
-[![Build Status](https://travis-ci.com/artslob/artslob-bot.svg?branch=master)](https://travis-ci.com/artslob/artslob-bot)
-[![codecov](https://codecov.io/gh/artslob/artslob-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/artslob/artslob-bot)
+[![Build Status](https://travis-ci.com/artslob/telegram-bot.svg?branch=master)](https://travis-ci.com/artslob/telegram-bot)
+[![codecov](https://codecov.io/gh/artslob/telegram-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/artslob/telegram-bot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 Это простой бот для телеграмма.  
