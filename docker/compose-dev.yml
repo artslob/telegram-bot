@@ -3,11 +3,11 @@ version: '3.7'
 # use this file for development only
 
 services:
-  python-bot:
+  telegram-bot:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    image: artslob/python-bot:latest
+    image: artslob/telegram-bot:latest
     ports:
       - "8081:8081"
     volumes:

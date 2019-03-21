@@ -19,6 +19,6 @@ install:
 script:
   - flake8 .
   - python3 -m pytest --cov-report=xml --cov=. tests/
-  - docker-compose -f docker/compose-test.yml up --build --abort-on-container-exit --exit-code-from python-bot-test
+  - docker-compose -f docker/compose-test.yml up --build --abort-on-container-exit --exit-code-from telegram-bot-test
 after_success:
   - codecov

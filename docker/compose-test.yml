@@ -3,11 +3,11 @@ version: '3.7'
 # use this file for testing only
 
 services:
-  python-bot-test:
+  telegram-bot-test:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    image: artslob/python-bot:test
+    image: artslob/telegram-bot:test
     networks:
       - test_network
     depends_on:

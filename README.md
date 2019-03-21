@@ -15,7 +15,7 @@
 Для запуска тестов необходимо установить [docker-compose](https://docs.docker.com/compose/install/).
 ```bash
 cd <project dir>
-docker-compose -f docker/compose-test.yml up --build --abort-on-container-exit --exit-code-from python-bot-test
+docker-compose -f docker/compose-test.yml up --build --abort-on-container-exit --exit-code-from telegram-bot-test
 ```
 Либо использовать удалённый интерпретатор python в PyCharm IDE, как описано в **Разработке**.
 
