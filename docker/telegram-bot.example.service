@@ -1,0 +1,18 @@
+# this file can be placed at /etc/systemd/system/telegram-bot.service
+
+[Unit]
+Description=Telegram bot
+Requires=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=<telegram-bot project dir>
+ExecStart=/usr/local/bin/docker-compose -f docker/compose-dev.yml up --build
+ExecStop=/usr/local/bin/docker-compose -f docker/compose-dev.yml down
+TimeoutStartSec=0
+Restart=on-failure
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
